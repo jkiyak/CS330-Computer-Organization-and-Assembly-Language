@@ -1,0 +1,37 @@
+section	.text
+	global _start _start: ;tell linker entry point
+	mov eax, startmessage
+	mov ebx, len1 ;length of starting message
+	
+	mov edx, len5 ;length of end message
+	mov ecx, startmessage
+	
+	mov eax, 5
+	call primechecker
+	
+	mov eax, 1
+	int 0x80
+ primechecker:
+	sub eax, '0' ;turning 5 into a string
+	mov edx, 2
+	div eax, edx
+	cmp eax, '0'
+	je endmessage
+	inc edx
+	jmp primechecker
+	
+endmessage:
+	mov edx, len5
+	mov edx, endquestion
+	mov ebx, 1
+	mov eax, 4
+	
+	ret
+
+section.data
+	startmessage db 'What number you want:', 0xa, 0xd
+	len1 equ $-startmessage
+	
+	endquestion db 'Congrats its prime i guess lol',
+	len5 equ $-endquestion
+	
